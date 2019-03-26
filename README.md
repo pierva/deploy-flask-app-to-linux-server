@@ -28,7 +28,7 @@ Login into your [Lightail account](https://lightsail.aws.amazon.com/ls/webapp/ho
 
 In the next page select the Instance Location (recommended to select the closest location from you), then in *Select Platform* choose `Linux/Unix` and in the *Select a blueprint* click on `OS Only` and select `Ubuntu`.
 
-![alt new instance](/images/new_instance.png)
+![alt new instance](images/New_Instance.png)
 
 Keep all the default settings for now
 *Choose your instance plan*, give a name to your instance and finally click on `Create Instance`.
@@ -210,7 +210,7 @@ Run 'do-release-upgrade' to upgrade to it.
 
 
 Last login: Tue Mar 26 23:10:12 2019 from 170.250.216.229
-ubuntu@ip-xxx-xx-xx-xx:~$ 
+ubuntu@ip-xxx-xx-xx-xx:~$
 ```
 ## Grader User
 The `grader` user was created for the instructors' review.
