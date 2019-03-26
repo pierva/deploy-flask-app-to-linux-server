@@ -26,7 +26,27 @@ Login into your [Lightail account](https://lightsail.aws.amazon.com/ls/webapp/ho
 
 ![alt lightsail home](/images/lightsail_home.png)
 
+In the next page select the Instance Location (recommended to select the closest location from you), then in *Select Platform* choose `Linux/Unix` and in the *Select a blueprint* click on `OS Only` and select `Ubuntu`.
 
+![alt new instance](/images/new_instance.png)
+
+Keep all the default settings for now
+*Choose your instance plan*, give a name to your instance and finally click on `Create Instance`.
+
+![alt instance plan](/images/Instance_plan.png)
+
+After clicking the button, the new instance will be created. The process will take few seconds to complete.
+In the home page now you'll see the new instance.
+
+![alt new instance created](/images/created_instance.png)
+
+To connect to the instance click on the terminal icon ![alt icon](/images/terminal_icon.png)
+
+A new terminal window (within a browser) will open and you're connected to your machine.
+
+![alt new terminal](/images/terminal_window.png)
+
+It is not very easy to work with this terminal in the window, because some operations such us copy-paste won't work. We'll set up the connection to the new machine from your own SSH client (terminal/PuTTY).
 
 
 ## Grader User
