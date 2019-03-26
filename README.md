@@ -48,7 +48,170 @@ A new terminal window (within a browser) will open and you're connected to your 
 
 It is not very easy to work with this terminal in the window, because some operations such us copy-paste won't work. We'll set up the connection to the new machine from your own SSH client (terminal/PuTTY).
 
+## 2. Connect using your own SSH client application
 
+### 2.1 Create a static IP
+It is recommended to create a static IP address for your machine before setting up the key-pairs authentication process.
+
+Click on the newly created instance name to enter the management page. Alternatively you can enter the management page by clicking on the vertival ellipsis next to the machine name and select `Manage`.
+
+![alt instance menu](images/manage.png)
+
+In the new page, select the *Networking* tabk and click on `Create static IP`.
+
+![static_ip](images/static_ip.png)
+
+After clicking the button a new page will open. In this page the default settings in the top part are generally fine, you can change the Static IP location if you want.
+Give a name to your static IP if you prefer and click on `Create`.
+
+![alt new static ip](images/new_static_ip.png)
+
+You'll get a new *Public static IP address*. This is what we'll use to connect to the machine.
+
+![alt static ip page](images/static_ip_page.png)
+
+
+### 2.2 Create the private key-pair
+
+We need to create a key pair that will be used to authenticate to the Virtual Machine.
+In your client terminal type the following command:
+
+```sh
+$ ssh-keygen
+```
+You'll be prompted to enter the file in which to save the key:
+```sh
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/user/.ssh/id_rsa): /Users/user/.ssh/YOUR-INSTANCE-KEY
+```
+Then you'll be asked to enter a passphrase for the new key. Recommended to not leave it empty.
+
+After typing the password, two files will be generated in the location you specified.
+You can check it by typing:
+```sh
+ls ~/.ssh
+```
+
+You'll see something like this:
+```sh
+$ ls
+YOUR-INSTANCE-KEY
+YOUR-INSTANCE-KEY.pub
+```
+Let's copy the public key in the clipboard so we can paste it in the virtual machine.
+
+```sh
+sudo cat ~/.ssh/YOUR-INSTANCE-KEY.pub
+```
+You should be prompted for a password, type your local machine (mac/windows) password.
+
+Copy the output string that begins with "ssh-rsa ...."
+
+Go to the aws [lightsail console](https://lightsail.aws.amazon.com/ls/webapp/home/instances) and connect to the instance from using the terminal icon or by clicking on `Connect using SSH` inside the instance management page.
+
+![alt connet ssh](images/connect_ssh.png)
+
+In the terminal let's navigate in the `.ssh` folder:
+
+```sh
+$ cd .ssh
+```
+
+The fastest way to upload the file is to remove the existing `authorized_keys` file, create a new one and paste the copyed public key.
+
+```sh
+$ sudo rm authorized_kyes
+
+$ sudo nano authorized_keys
+```
+To paste in this terminal:
+1. press the clipboard button in the toolbard (bottom right)
+2. paste the content in the text area
+3. close the clipboard by clicking the same button
+4. focus on the terminal (click on the terminal) and right click with the mouse
+
+![alt clipboard](images/clipboard.png)
+Now you can save and close the file `ctrl+x`, `Y`, and `enter`.
+
+
+### 2.3 Connect from your terminal
+Now that we have a strong authentication process in place we can connect to the machine directly from the client terminal (PuTTY).
+In your terminal type the below command:
+
+```sh
+$ ssh ubuntu@xx.xxx.xxx.xxx -i ~/.ssh/YOUR-INSTANCE-KEY
+```
+
+Insert your IP address and make sure that the path and file name to your private key is correct.
+
+## 3. Change ssh port
+Now that we are logged in we can go ahead and setup our server as we like.
+
+Let's start by changing the SSH port from 22 to 2200.
+To make this change we need to change the port number in the `sshd_config` file.
+
+```sh
+sudo nano /etc/ssh/sshd_config
+```
+
+Locate the line that says
+```
+# What ports, IPs and protocols we listen for
+Port 22
+```
+and change 22 to 2200.
+```
+# What ports, IPs and protocols we listen for
+Port 2200
+```
+Save and exit. Restart the sshd service.
+```sh
+sudo service sshd restart
+```
+Before we can use the port we need to enable it in the instance firewall in the [aws lightsail console](https://lightsail.aws.amazon.com/ls/webapp/us-east-1/instances/YOUR-INSTANCE-NAME/networking).
+Inside your `instance` page select the *Networking* tab and under the *Firewall* section click on `+ Add another`.
+
+![alt firewall settings](images/firewall_settings.png)
+Let's test that the port is actually working.
+
+Insert the new port 2200 in the Port range. Application should be Custom and Protocl TCP. Save the new configuration.
+![alt new port](images/new_port.png)
+
+
+Now we can test if everything is working as it should. Exit the machine if not already done. From your client terminal:
+```sh
+exit
+```
+Now let's try the SSH with the new port (Insert your IP and the path to the secret key).
+
+```sh
+$ ssh ubuntu@xx.xxx.xxx.xxx -p 2200 -i ~/.ssh/YOUR-INSTANCE-KEY
+```
+If you're prompted to enter the password and then you enter the machine you're all set.
+
+```sh
+$ ssh ubuntu@xx.xxx.xxx.xxx -p 2200 -i ~/.ssh/YOUR-INSTANCE-KEY
+
+Enter passphrase for key '/Users/piervalerio/.ssh/YOUR-INSTANCE-KEY':
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.4.0-1052-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+0 packages can be updated.
+0 updates are security updates.
+
+New release '18.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Tue Mar 26 23:10:12 2019 from 170.250.216.229
+ubuntu@ip-xxx-xx-xx-xx:~$ 
+```
 ## Grader User
 The `grader` user was created for the instructors' review.
 Access the server as `grader` (private key provided in the note for the instructor):
@@ -89,3 +252,6 @@ Library: <br>
 [Secure postgres on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
 <br>
 [SQLAlchemy engine configuration](https://docs.sqlalchemy.org/en/latest/core/engines.html#postgresql)
+<br>
+[Downlaod and setup PuTTY](https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-how-to-set-up-putty-to-connect-using-ssh)
+[Copy paste in lightsail terminal](https://forums.aws.amazon.com/thread.jspa?messageID=814852&tstart=0)
