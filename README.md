@@ -133,6 +133,13 @@ To paste in this terminal:
 ![alt clipboard](images/clipboard.png)
 Now you can save and close the file `ctrl+x`, `Y`, and `enter`.
 
+One last thing we need to do to do is set up some specific file permissions on the authorized key file and SSH directory.
+This is a security measure that SSH enforces to ensure other users cannot gain access to your account.
+
+```sh
+$ sudo chmod 700 ~/.ssh
+$ sudo chmod 644 ~/.ssh/authorized_keys
+```
 
 ### 2.3 Connect from your terminal
 Now that we have a strong authentication process in place we can connect to the machine directly from the client terminal (PuTTY).
@@ -229,23 +236,128 @@ In the subsequent page select UTC and click ok.
 
 ____
 
+## 5. Configuring the server firewall rules
+Now that we have configured our server as we like is time to configure and enable the virtual machine firewall.
 
+Check the firewall status with:
+```sh
+$ sudo ufw status
+```
+By default the firewall is inactive.
 
+**Before enabling the firewall make sure that is configured correctly, otherwise you may risk to be locked out of your lightsail instance**
 
-## 6. Grader User
+The port we want to enable are:
+* 80 (HTTP)
+* 2200 (SSH)
+* 123 (NTP)
+
+Let's start by disabling all the incoming ports and enabling all the default outgoing.
+
+```sh
+$ sudo ufw default deny incoming
+$ sudo ufw default allow outgoing
+```
+Now we can enable our ports:
+```sh
+$ sudo ufw allow www
+$ sudo ufw allow 2200/tcp
+$ sudo ufw allow 123/udp
+```
+If you're completely sure that the rules are set up properly, you can now enable the firewall.
+```sh
+$ sudo ufw enable
+```
+
+If you now run the command `sudo ufw status`, you should get the following output:
+```
+Status: active
+
+To                         Action      From
+--                         ------      ----
+80/tcp                     ALLOW       Anywhere                  
+2200/tcp                   ALLOW       Anywhere                  
+123/udp                    ALLOW       Anywhere                  
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+2200/tcp (v6)              ALLOW       Anywhere (v6)             
+123/udp (v6)               ALLOW       Anywhere (v6)
+```
+
+## 6. Create a new User
 In this section we'll create a new user called `grader`.
+To create our new user it is necessary to have `sudo` rights. If we are logged in as ubuntu we're fine. When we add the new user we'll be prompted with few questions including the password for the new user.
+
+```sh
+$ sudo adduser grader
+
+Adding user `grader' ...
+Adding new group `grader' (1001) ...
+Adding new user `grader' (1001) with group `grader' ...
+Creating home directory `/home/grader' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+Changing the user information for grader
+Enter the new value, or press ENTER for the default
+	Full Name []: grader
+	Room Number []:  
+	Work Phone []:
+	Home Phone []:
+	Other []:
+Is the information correct? [Y/n] y
+```
+### 6.1 Give the new user sudo privileges
+Ubuntu creates a folder with all the users with pseudo privileges. You can check who has pseudo privileges with the following command.
+
+```sh
+$ sudo ls /etc/sudoers.d
+```
+
+In this folder you'll find a default user called `90-cloud-init-users`.
+
+1. Let's make a copy of this file.
+
+```sh
+$ sudo cp /etc/sudoers.d/90-cloud-init-users /etc/sudoers.d/grader
+```
+
+2. Open the file
+```sh
+$ sudo nano /etc/sudoers.d/grader
+```
+3. Change ubuntu with the new user: grader
+```
+# User rules for ubuntu
+grader ALL=(ALL) NOPASSWD:ALL
+```
+
+4. Save and close the file
+
+5. If you want to force the new user to change the password after the login, type the following command:
+
+```sh
+$ sudo passwd -e grader
+```
+The `-e` flag will basically expire the password.
+
+### 6.2 Create a strong key-pair authentication
+Follow the steps described in section 2.2
+
+### 6.2 Access the server as the new user
 
 Access the server as `grader` (private key provided in the note for the instructor):
 ```sh
-$ ssh grader@3.209.74.0 -p 2200 -i ~/.ssh/<private-key-file>
+$ ssh grader@34.225.146.144 -p 2200 -i ~/.ssh/<private-key-file>
 ```
 The ssh authorized keys file is located in the following directory `/.ssh`:
 ```sh
 $ cd ~/.ssh/authorized_keys
 ```
 
-## Installing PostgreSQL
+## 7. Installing PostgreSQL
 Installing and setup the database on the linux machine can be somehow tricky. We'll break it down all the necessary steps in order to make the process as simple as possible.
+
 
 ### Disable remote connections
 Remote connections are by default disabled when installing PostgreSQL from the Ubuntu repositories. We can double check it by accessing this configuration file:
