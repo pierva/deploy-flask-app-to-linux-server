@@ -13,7 +13,7 @@ To learn all the application features and how it works please refer to the app [
 
 #### Hosting Server Details
 
-public ip: 3.209.74.0
+public (static) ip: 34.225.146.144
 <br>
 port: 2200
 <br>
@@ -212,8 +212,29 @@ Run 'do-release-upgrade' to upgrade to it.
 Last login: Tue Mar 26 23:10:12 2019 from 170.250.216.229
 ubuntu@ip-xxx-xx-xx-xx:~$
 ```
-## Grader User
-The `grader` user was created for the instructors' review.
+
+## 4. Configure the timezone to UTC
+To set the server clock to UTC (default) we can type the following command:
+```sh
+sudo dpkg-reconfigure tzdata
+```
+This will open the setting page where you can choose the timezone for the machine.
+
+Select `None of the above` in the first page.
+
+![alt clock settings](images/clock_1.png)
+
+In the subsequent page select UTC and click ok.
+![alt clock to UTC](images/clock_2.png)
+
+____
+
+
+
+
+## 6. Grader User
+In this section we'll create a new user called `grader`.
+
 Access the server as `grader` (private key provided in the note for the instructor):
 ```sh
 $ ssh grader@3.209.74.0 -p 2200 -i ~/.ssh/<private-key-file>
