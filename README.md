@@ -358,6 +358,74 @@ $ cd ~/.ssh/authorized_keys
 ## 7. Installing PostgreSQL
 Installing and setup the database on the linux machine can be somehow tricky. We'll break it down all the necessary steps in order to make the process as simple as possible.
 
+Let's start by updating the machine.
+```sh
+$ sudo apt-get update
+$ sudo apt-get upgrade
+```
+
+### 7.1 Installtion
+```sh
+$ sudo apt-get install postgresql postgresql-contrib
+```
+This will install the latest version of the postgresql server locally. Additionally togheter with the server it will be installed all the commonly used add-ons for it.
+
+To start we need to create the role postgres and setup the password.
+
+```sh
+$ sudo -u postgres psql postgres
+```
+Set up up the password:
+```
+\password postgres
+```
+Type `Ctrl+D` or `\q` to exit the postgreSQL prompt.
+
+We now have PostgreSQL installed and the PostgreSQL service is running in the background. However, we need to create a user and a database instance for our needs to really start using it.
+
+`postgres` is a super user. We want to create user that has limited access only to the defined database.
+
+Use the sudo command to switch to the "postgres" account.
+```sh
+$ sudo -i -u postgres
+```
+
+Within the "postgres" account, create a user from the command line with the createuser command. PostgreSQL will prompt you with several questions. Answer "n" to superuser and "y" to the other questions.
+```sh
+$  createuser catalog -P --interactive
+```
+
+The output will be something like this:
+```sh
+postgres@ip-172-26-15-52:~$ createuser catalog -P --interactive
+Enter password for new role:
+Enter it again:
+Shall the new role be a superuser? (y/n) n
+Shall the new role be allowed to create databases? (y/n) y
+Shall the new role be allowed to create more new roles? (y/n) y
+postgres@ip-172-26-15-52:~$
+```
+Exit out of the postgres account by pressing the "Ctrl+D" into the terminal shell.
+
+Create a new database:
+```sh
+sudo -u postgres createdb -O catalog catalogdb
+```
+The above command will create a database `catalogdb` with `catalog` as owner.
+
+To check get the list of roles in postgreSQL type:
+```sh
+sudo -u postgres psql catalogdb
+```
+And then inside the postgres prompt:
+```
+SELECT rolname FROM pg_roles;
+```
+
+To get the list of all the databases, in the same postgreSQL prompt type:
+```
+\l
+```
 
 ### Disable remote connections
 Remote connections are by default disabled when installing PostgreSQL from the Ubuntu repositories. We can double check it by accessing this configuration file:
@@ -388,3 +456,4 @@ Library: <br>
 <br>
 [Downlaod and setup PuTTY](https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-how-to-set-up-putty-to-connect-using-ssh)
 [Copy paste in lightsail terminal](https://forums.aws.amazon.com/thread.jspa?messageID=814852&tstart=0)
+[PostgreSQL roles](http://www.postgresqltutorial.com/postgresql-roles/)
