@@ -427,7 +427,7 @@ To get the list of all the databases, in the same postgreSQL prompt type:
 \l
 ```
 
-### Disable remote connections
+### 7.2 Disable remote connections
 Remote connections are by default disabled when installing PostgreSQL from the Ubuntu repositories. We can double check it by accessing this configuration file:
 ```sh
 sudo nano /etc/postgresql/9.1/main/pg_hba.conf
@@ -447,7 +447,83 @@ host    all             all             127.0.0.1/32            md5
 # IPv6 local connections:
 host    all             all             ::1/128                 md5
 ```
+### 7.3 Test the local connection
+To communicate with our database within python we need to install a module called `psycopg2`.
+To install python3 modules with `pip3` we need to install `pip3` first and upgrade it.
+```sh
+$ sudo apt-get install python3-pip
+$ sudo pip3 install --upgrade pip
+```
 
+Install psycopg2:
+```sh
+$ sudo pip3 install psycopg2
+$ sudo pip3 install psycopg2-binary
+```
+
+Now we can open python3, import the module and test the connection with the db.
+
+You can use the below code to test the connection. Replace the connection string values with your values.
+
+```python
+import psycopg2
+
+try:
+    connect_str = "dbname='catalogdb' user='catalog' host='localhost' " + \
+                  "password='catalog'"
+    # use our connection values to establish a connection
+    conn = psycopg2.connect(connect_str)
+    # create a psycopg2 cursor that can execute queries
+    cursor = conn.cursor()
+    # create a new table with a single column called "name"
+    cursor.execute("""CREATE TABLE IF NOT EXISTS tutorials (name char(40));""")
+    cursor.execute("INSERT INTO tutorials (name) VALUES ('Linux Server Tutorial');")
+    conn.commit() # <--- makes sure the change is shown in the database
+    cursor.execute("""SELECT * from tutorials""")
+    rows = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    print(rows)
+except Exception as e:
+    print("Uh oh, can't connect. Invalid dbname, user or password?")
+    print(e)
+```
+We can open the database and confirm that the table was created.
+
+```sh
+$ sudo -u postgres psql catalogdb
+```
+```
+catalogdb=# \dt
+```
+Now we can remove the table (inside the psql prompt) with `DROP TABLE`:
+```
+catalogdb=# DROP TABLE tutorials;
+```
+
+
+## 8. Install Apache2
+
+Get and install apache2
+```sh
+$ sudo apt-get install apache2
+```
+If apache is set correctly, you'll see the welcome page when you navigate to the public_IP from the browser.
+
+Install mod_wsgi for python3:
+```sh
+$ sudo apt-get install libapache2-mod-wsgi-py3
+```
+After the installagtion wsgi is already enable. However, just to make sure that is enable we can try enableing it with:
+```sh
+$ sudo a2enmod wsgi
+```
+```sh
+Restart apache server:
+$ sudo service apache2 restart
+```
+
+## 9. Set up the Flask Application
 
 Library: <br>
 [Secure postgres on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
@@ -457,3 +533,5 @@ Library: <br>
 [Downlaod and setup PuTTY](https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-how-to-set-up-putty-to-connect-using-ssh)
 [Copy paste in lightsail terminal](https://forums.aws.amazon.com/thread.jspa?messageID=814852&tstart=0)
 [PostgreSQL roles](http://www.postgresqltutorial.com/postgresql-roles/)
+[Drop table](http://www.postgresqltutorial.com/postgresql-drop-table/)
+[Listing db](https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/)
