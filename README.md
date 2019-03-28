@@ -510,6 +510,10 @@ $ sudo apt-get install apache2
 ```
 If apache is set correctly, you'll see the welcome page when you navigate to the public_IP from the browser.
 
+We also need WSGI in our server.
+
+mod_wsgi is an Apache HTTP Server module by Graham Dumpleton that provides a WSGI compliant interface for hosting Python based web applications under Apache.
+
 Install mod_wsgi for python3:
 ```sh
 $ sudo apt-get install libapache2-mod-wsgi-py3
@@ -524,6 +528,51 @@ $ sudo service apache2 restart
 ```
 
 ## 9. Set up the Flask Application
+
+We'll now use the [catalog-app](https://github.com/pierva/catalog-app) application previously created during the course and make sure it is served publicly on the browser by our server.
+
+Please follow the steps indicated in the [catalog-app](https://github.com/pierva/catalog-app) README to proper setup the application for production.
+
+
+In apache2, the applications are by default served from the `/var/www/html` folder. If you have subdomains you can set up a different directory where WSGI will look for the application.
+
+This is done by creating a new virtual host conf file in `/etc/apache2/sites-available`.
+
+The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+
+### 9.3 Clone the application
+Navigate in the `html` directory and clone the application.
+
+```sh
+$ cd /var/www/html
+$ sudo git clone https://github.com/pierva/catalog-app
+```
+
+### 9.4 Create and setup the WSGI file
+Inside the html folder we need to create the wsgi file for our app.
+
+```sh
+$ sudo nano /var/www/html/catalog_app.wsgi
+```
+
+Paste the following code.
+```python
+import sys
+import logging
+
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0, '/var/www/html/catalog-app')
+
+from catalog import app as application
+
+```
+
+Error log can be found at:
+```sh
+sudo cat /var/log/apache2/error.log
+```
+___
+
 
 Library: <br>
 [Secure postgres on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
