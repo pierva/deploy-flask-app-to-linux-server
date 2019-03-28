@@ -534,25 +534,49 @@ We'll now use the [catalog-app](https://github.com/pierva/catalog-app) applicati
 Please follow the steps indicated in the [catalog-app](https://github.com/pierva/catalog-app) README to proper setup the application for production.
 
 
-In apache2, the applications are by default served from the `/var/www/html` folder. If you have subdomains you can set up a different directory where WSGI will look for the application.
+In apache2, the applications are by default served from the `/var/www/html` folder. By default the html folder contains the index.html file that we see when we navigate to the server IP in the client browser.
+You should change this file to show some message to the user for when there is some problem in the server.
 
-This is done by creating a new virtual host conf file in `/etc/apache2/sites-available`.
 
 The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
-### 9.3 Clone the application
-Navigate in the `html` directory and clone the application.
+### 9.1 Clone the application
+Navigate in the `www` directory and clone the application. If you just run the below command you'll clone the application inside a new folder called `catalog-app`
 
 ```sh
-$ cd /var/www/html
+$ cd /var/www
 $ sudo git clone https://github.com/pierva/catalog-app
 ```
+If you followed all the steps in the `catalog-app` doc, you can proceed to section 9.4.
+Install all the dependencies with (make sure you're inside the application root folder `catalog-app`):
+```sh
+$ sudo pip3 install -r requirements.txt
+```
+Change one line (around line 15) in the `__init__.py` file inside the `catalog` folder:
 
-### 9.4 Create and setup the WSGI file
+```python
+# Change the below line
+# app.config.from_object(os.environ['APP_SETTINGS'])
+
+# with this one
+app.config.from_object("catalog.config.ProductionConfig")
+
+```
+
+### 9.2 Test the dependencies
+Once the application has been cloned and all the proper configurations done, you can check if all the dependencies have been properly installed by running this command from the app root folder:
+
+```sh
+$ python3 manage.py create_db
+```
+
+If you don't get any error you're good to go.
+
+### 9.3 Create and setup the WSGI file
 Inside the html folder we need to create the wsgi file for our app.
 
 ```sh
-$ sudo nano /var/www/html/catalog_app.wsgi
+$ sudo nano /var/www/app.wsgi
 ```
 
 Paste the following code.
@@ -561,12 +585,91 @@ import sys
 import logging
 
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0, '/var/www/html/catalog-app')
+sys.path.insert(0, '/var/www/catalog-app')
 
 from catalog import app as application
 
 ```
 
+### 9.4 The virtual host
+We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-available` directory.
+
+We can alter the default configuration and make it point to our application.
+
+```sh
+$ sudo nano /etc/apache2/sites-enabled/000-default.conf
+```
+Inside the conf file:
+- Change DocumentRoot path
+- Add this line `WSGIScriptAlias / /var/www/app.wsgi` just before the closing tag
+
+The conf file should now look similar to this.
+```sh
+VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin example@email.com
+        DocumentRoot /var/www/catalog-app
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+        WSGIScriptAlias / /var/www/app.wsgi
+</VirtualHost>
+```
+
+Restart the server:
+```sh
+$ sudo apache2ctl restart
+```
+
+Now navigate to the public IP and you should see the application running.
+
+![alt application preview](images/app_running.png)
+
+### 9.5 App ad hoc configuration
+A best practice would be to create a configuration file just for the application.
+This will involve the implementation of the WSGIDeamonProcess which I'll not cover here.
+
+To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
+
+### 9.6 Utilities: useful commands
+Enable the conf file with `a2ensite`:
+```sh
+sudo a2ensite <fileName>.conf
+```
+Disable the defualt site defined in `000-default.conf`:
+```sh
+$ sudo a2dissite 000-default.conf
+```
+Test the configuration:
+```sh
+$ sudo apache2ctl configtest
+```
+
+Restart the server:
+```sh
+$ sudo apache2ctl restart
+```
 Error log can be found at:
 ```sh
 sudo cat /var/log/apache2/error.log
