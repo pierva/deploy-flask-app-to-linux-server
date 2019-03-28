@@ -13,7 +13,7 @@ To learn all the application features and how it works please refer to the app [
 
 #### Hosting Server Details
 
-public (static) ip: 34.225.146.144
+public (static) ip: 3.209.74.0
 <br>
 port: 2200
 <br>
@@ -518,7 +518,7 @@ Install mod_wsgi for python3:
 ```sh
 $ sudo apt-get install libapache2-mod-wsgi-py3
 ```
-After the installagtion wsgi is already enable. However, just to make sure that is enable we can try enableing it with:
+After the installation, by default, wsgi is already enabled. However, just to make sure that is enabled we can try enabling it with:
 ```sh
 $ sudo a2enmod wsgi
 ```
@@ -534,11 +534,9 @@ We'll now use the [catalog-app](https://github.com/pierva/catalog-app) applicati
 Please follow the steps indicated in the [catalog-app](https://github.com/pierva/catalog-app) README to proper setup the application for production.
 
 
-In apache2, the applications are by default served from the `/var/www/html` folder. By default the html folder contains the index.html file that we see when we navigate to the server IP in the client browser.
+In apache2, the applications are by default served from the `/var/www/html` folder. By default the html folder contains the index.html file that we have see when we navigated to the server IP in the client browser.
 You should change this file to show some message to the user for when there is some problem in the server.
 
-
-The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
 ### 9.1 Clone the application
 Navigate in the `www` directory and clone the application. If you just run the below command you'll clone the application inside a new folder called `catalog-app`
@@ -592,7 +590,7 @@ from catalog import app as application
 ```
 
 ### 9.4 The virtual host
-We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-available` directory.
+We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-enabled` directory.
 
 We can alter the default configuration and make it point to our application.
 
@@ -646,11 +644,15 @@ Now navigate to the public IP and you should see the application running.
 
 ![alt application preview](images/app_running.png)
 
-### 9.5 App ad hoc configuration
+
+The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+
+### 9.5 Ad hoc app configuration
 A best practice would be to create a configuration file just for the application.
 This will involve the implementation of the WSGIDeamonProcess which I'll not cover here.
 
 To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
+
 
 ### 9.6 Utilities: useful commands
 Enable the conf file with `a2ensite`:
@@ -687,3 +689,5 @@ Library: <br>
 [PostgreSQL roles](http://www.postgresqltutorial.com/postgresql-roles/)
 [Drop table](http://www.postgresqltutorial.com/postgresql-drop-table/)
 [Listing db](https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/)
+[Virtual Host](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+[WSGIDeamonProcess](https://modwsgi.readthedocs.io/en/develop/configuration-directives/WSGIDaemonProcess.html)
