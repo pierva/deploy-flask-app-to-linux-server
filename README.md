@@ -4,31 +4,31 @@
 ____
 ## Table of Contents
 
-1. [Getting Started With Lightail](#1.getting-started-with-lightsail)
-2. [Connect using your own SSH client application](#2.connect-using-your-own-ssh-client-application)<br>
-2.1 [Create a Static IP](#2.1create-a-static-ip)<br>
-2.2 [Create the private key-pair](2.2#create-the-private-key-pair)<br>
-2.3 [Connect from your terminal](2.3#connect-from-your-terminal)
-3. [Change ssh port](#3.change-ssh-port)
-4. [Configure the timezone to UTC](#4.configure-the-timezone-to-utc)
-5. [Configure the server firewall rules](#5.configure-the-server-firewall-rules)<br>
-5.1 [Protect SSH with Fail2Ban](#5.1protect-ssh-with-fail2ban)<br>
-6. [Create a new User](#6.create-a-new-user)<br>
-6.1 [Give the new user sudo privileges](#6.1give-the-new-user-sudo-privileges)<br>
-6.2 [Create a strong key-pair authentication](#6.2create-a-strong-key-pair-authentication)<br>
-6.3 [Access the server as the new user](#6.3access-the-server-as-the-new-user)<br>
-7. [Installing PostgreSQL](#7.installing-postgresql)
-7.1 [Installation](#7.1installation)<br>
-7.2 [Disable remote connections](#7.2disable-remote-connections)<br>
-7.3 [Test the local connection](#7.3test-the-local-connection)<br>
-8. [Install Apache2](#8.install-apache2)
-9. [Set up the Flask Application](#9.set-up-the-flask-application)<br>
-9.1 [Clone the application](#9.1clone-the-application)<br>
-9.2 [Test the dependencies](#9.2test-the-dependencies)<br>
-9.3 [Create and setup the WSGI file](#9.3create-and-setup-the-wsgi-file)<br>
-9.4 [The virtual host](#9.4the-virtual-host)<br>
-9.5 [Ad hoc app configuration](#9.5ad-hoc-app-configuration)<br>
-9.6 [Utilities: useful commands](#9.6utilities:-useful-commands)<br>
++ [Getting Started With Lightail](#getting-started-with-lightsail)
++ [Connect using your own SSH client application](#connect-using-your-own-ssh-client-application)
+* [Create a Static IP](#create-a-static-ip)
+* [Create the private key-pair](#create-the-private-key-pair)
+* [Connect from your terminal](#connect-from-your-terminal)
++ [Change ssh port](#change-ssh-port)
++ [Configure the timezone to UTC](#configure-the-timezone-to-utc)
++ [Configure the server firewall rules](#configure-the-server-firewall-rules)
+* [Protect SSH with Fail2Ban](#protect-ssh-with-fail2ban)
++ [Create a new User](#create-a-new-user)
+* [Give the new user sudo privileges](#give-the-new-user-sudo-privileges)
+* [Create a strong key-pair authentication](#create-a-strong-key-pair-authentication)
+* [Access the server as the new user](#access-the-server-as-the-new-user)
++ [Installing PostgreSQL](#installing-postgresql)
+* [Installation](#installation)
+* [Disable remote connections](#disable-remote-connections)
+* [Test the local connection](#test-the-local-connection)
++ [Install Apache2](#install-apache2)
++ [Set up the Flask Application](#set-up-the-flask-application)
+* [Clone the application](#clone-the-application)
+* [Test the dependencies](#test-the-dependencies)
+* [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)
+* [The virtual host](#the-virtual-host)
+* [Ad hoc app configuration](#ad-hoc-app-configuration)
+* [Utilities: useful commands](#utilities:-useful-commands)
 
 [References](#references)
 
@@ -56,7 +56,7 @@ port: 2200
 <br>
 uri: http://www.piervaleriovignola.com
 
-## 1. Getting Started With Lightail
+## Getting Started With Lightail
 Lightail is the easiest way to get started with AWS. It allows you to launch a virtual private server in just few clicks. You don't have to worry about all the infrastructure setup.
 
 Login into your [Lightail account](https://lightsail.aws.amazon.com/ls/webapp/home/instances) and in the home page click on "create instance" button.
@@ -85,9 +85,9 @@ A new terminal window (within a browser) will open and you're connected to your 
 
 It is not very easy to work with this terminal in the window, because some operations such us copy-paste won't work. We'll set up the connection to the new machine from your own SSH client (terminal/PuTTY).
 
-## 2. Connect using your own SSH client application
+## Connect using your own SSH client application
 
-### 2.1 Create a static IP
+### Create a static IP
 It is recommended to create a static IP address for your machine before setting up the key-pairs authentication process.
 
 Click on the newly created instance name to enter the management page. Alternatively you can enter the management page by clicking on the vertival ellipsis next to the machine name and select `Manage`.
@@ -108,7 +108,7 @@ You'll get a new *Public static IP address*. This is what we'll use to connect t
 ![alt static ip page](images/static_ip_page.png)
 
 
-### 2.2 Create the private key-pair
+### Create the private key-pair
 
 We need to create a key pair that will be used to authenticate to the Virtual Machine.
 In your client terminal type the following command:
@@ -178,7 +178,7 @@ $ sudo chmod 700 ~/.ssh
 $ sudo chmod 644 ~/.ssh/authorized_keys
 ```
 
-### 2.3 Connect from your terminal
+### Connect from your terminal
 Now that we have a strong authentication process in place we can connect to the machine directly from the client terminal (PuTTY).
 In your terminal type the below command:
 
@@ -188,7 +188,7 @@ $ ssh ubuntu@xx.xxx.xxx.xxx -i ~/.ssh/YOUR-INSTANCE-KEY
 
 Insert your IP address and make sure that the path and file name to your private key is correct.
 
-## 3. Change ssh port
+## Change ssh port
 Now that we are logged in we can go ahead and setup our server as we like.
 
 Let's start by changing the SSH port from 22 to 2200.
@@ -264,7 +264,7 @@ Last login: Tue Mar 26 23:10:12 2019 from 170.250.216.229
 ubuntu@ip-xxx-xx-xx-xx:~$
 ```
 
-## 4. Configure the timezone to UTC
+## Configure the timezone to UTC
 To set the server clock to UTC (default) we can type the following command:
 ```sh
 sudo dpkg-reconfigure tzdata
@@ -280,7 +280,7 @@ In the subsequent page select UTC and click ok.
 
 ____
 
-## 5. Configuring the server firewall rules
+## Configuring the server firewall rules
 Now that we have configured our server as we like is time to configure and enable the virtual machine firewall.
 
 Check the firewall status with:
@@ -326,7 +326,7 @@ To                         Action      From
 2200/tcp (v6)              ALLOW       Anywhere (v6)             
 123/udp (v6)               ALLOW       Anywhere (v6)
 ```
-### 5.1 Protect SSH with Fail2Ban
+### Protect SSH with Fail2Ban
 Since the SSH deamon is a service that must be exposed to the internet to function properly, it creates a vector of attack.
 We can mitigate this problem by using a service called **fail2ban**. This service creates rules that can automatically alter the `iptables` firewall configuration based on a predefined number of unsuccessful login attempts.
 
@@ -382,7 +382,7 @@ Restart fail2ban to implement the wrapping rules:
 $ sudo service fail2ban start
 ```
 
-## 6. Create a new User
+## Create a new User
 In this section we'll create a new user called `grader`.
 To create our new user it is necessary to have `sudo` rights. If we are logged in as ubuntu we're fine. When we add the new user we'll be prompted with few questions including the password for the new user.
 
@@ -406,7 +406,7 @@ Enter the new value, or press ENTER for the default
 	Other []:
 Is the information correct? [Y/n] y
 ```
-### 6.1 Give the new user sudo privileges
+### Give the new user sudo privileges
 Ubuntu creates a folder with all the users with pseudo privileges. You can check who has pseudo privileges with the following command.
 
 ```sh
@@ -447,10 +447,10 @@ $ sudo passwd -e grader
 ```
 The `-e` flag will basically expire the password.
 
-### 6.2 Create a strong key-pair authentication
+### Create a strong key-pair authentication
 Follow the steps described in section 2.2
 
-### 6.3 Access the server as the new user
+### Access the server as the new user
 
 Access the server as `grader` (private key provided in the note for the instructor):
 ```sh
@@ -461,7 +461,7 @@ The ssh authorized keys file is located in the following directory `/.ssh`:
 $ cd ~/.ssh/authorized_keys
 ```
 
-## 7. Installing PostgreSQL
+## Installing PostgreSQL
 Installing and setup the database on the linux machine can be somehow tricky. We'll break it down all the necessary steps in order to make the process as simple as possible.
 
 Let's start by updating the machine.
@@ -470,7 +470,7 @@ $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
 
-### 7.1 Installtion
+### Installtion
 ```sh
 $ sudo apt-get install postgresql postgresql-contrib
 ```
@@ -533,7 +533,7 @@ To get the list of all the databases, in the same postgreSQL prompt type:
 \l
 ```
 
-### 7.2 Disable remote connections
+### Disable remote connections
 Remote connections are by default disabled when installing PostgreSQL from the Ubuntu repositories. We can double check it by accessing this configuration file:
 ```sh
 sudo nano /etc/postgresql/9.1/main/pg_hba.conf
@@ -553,7 +553,7 @@ host    all             all             127.0.0.1/32            md5
 # IPv6 local connections:
 host    all             all             ::1/128                 md5
 ```
-### 7.3 Test the local connection
+### Test the local connection
 To communicate with our database within python we need to install a module called `psycopg2`.
 To install python3 modules with `pip3` we need to install `pip3` first and upgrade it.
 ```sh
@@ -608,7 +608,7 @@ catalogdb=# DROP TABLE tutorials;
 ```
 
 
-## 8. Install Apache2
+## Install Apache2
 
 Get and install apache2
 ```sh
@@ -633,7 +633,7 @@ Restart apache server:
 $ sudo service apache2 restart
 ```
 
-## 9. Set up the Flask Application
+## Set up the Flask Application
 
 We'll now use the [catalog-app](https://github.com/pierva/catalog-app) application previously created during the course and make sure it is served publicly on the browser by our server.
 
@@ -644,14 +644,14 @@ In apache2, the applications are by default served from the `/var/www/html` fold
 You should change this file to show some message to the user for when there is some problem in the server.
 
 
-### 9.1 Clone the application
+### Clone the application
 Navigate in the `www` directory and clone the application. If you just run the below command you'll clone the application inside a new folder called `catalog-app`
 
 ```sh
 $ cd /var/www
 $ sudo git clone https://github.com/pierva/catalog-app
 ```
-If you followed all the steps in the `catalog-app` doc, you can proceed to section 9.4.
+If you followed all the steps in the `catalog-app` doc, you can proceed to next section.
 Install all the dependencies with (make sure you're inside the application root folder `catalog-app`):
 ```sh
 $ sudo pip3 install -r requirements.txt
@@ -667,7 +667,7 @@ app.config.from_object("catalog.config.ProductionConfig")
 
 ```
 
-### 9.2 Test the dependencies
+### Test the dependencies
 Once the application has been cloned and all the proper configurations done, you can check if all the dependencies have been properly installed by running this command from the app root folder:
 
 ```sh
@@ -676,7 +676,7 @@ $ python3 manage.py create_db
 
 If you don't get any error you're good to go.
 
-### 9.3 Create and setup the WSGI file
+### Create and setup the WSGI file
 Inside the html folder we need to create the wsgi file for our app.
 
 ```sh
@@ -695,7 +695,7 @@ from catalog import app as application
 
 ```
 
-### 9.4 The virtual host
+### The virtual host
 We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-enabled` directory.
 
 We can alter the default configuration and make it point to our application.
@@ -753,14 +753,14 @@ Now navigate to the public IP and you should see the application running.
 
 The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
-### 9.5 Ad hoc app configuration
+### Ad hoc app configuration
 A best practice would be to create a configuration file just for the application.
 This will involve the implementation of the WSGIDeamonProcess which I'll not cover here.
 
 To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
 
-### 9.6 Utilities: useful commands
+### Utilities: useful commands
 Enable the conf file with `a2ensite`:
 ```sh
 sudo a2ensite <fileName>.conf
