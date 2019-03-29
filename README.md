@@ -1,6 +1,12 @@
-## Linux Server Configuration Project
-### Full Stack Web Developer Nanodegree - Udacity
+# Linux Server Configuration Project
+## Full Stack Web Developer Nanodegree - Udacity
 
+## Table of Contents
+
+[1. Getting Started With Lightail](#1.-getting-started-with-lightsail)
+
+
+# Introduction
 In this project we will cover all the steps necessary to install a Linux server and host a web application with a postgres database.
 
 The web application we'll be hosting is the `catalog-app` created during the Project # 2 of this course.
@@ -802,3 +808,4 @@ Library: <br>
 [Automatic security updates](https://help.ubuntu.com/community/AutomaticSecurityUpdates)
 [Serve application with Gunicornd and Nginx](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-14-04)
 [System monitoring with Nagios](https://www.digitalocean.com/community/tutorials/how-to-install-nagios-4-and-monitor-your-servers-on-ubuntu-14-04)
+[System monitoring with Glances](https://pypi.org/project/Glances/)
