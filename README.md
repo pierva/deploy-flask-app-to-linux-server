@@ -4,31 +4,32 @@
 ____
 ## Table of Contents
 
-1. [Getting Started With Lightail](#1.-getting-started-with-lightsail)
-2. [Connect using your own SSH client application](#2.-connect-using-your-own-ssh-client-application)<br>
-2.1 [Create a Static IP](#create-a-static-ip)<br>
-2.2 [Create the private key-pair](#create-the-private-key-pair)<br>
-2.3 [Connect from your terminal](#connect-from-your-terminal)
-3. [Change ssh port](#change-ssh-port)
-4. [Configure the timezone to UTC](#configure-the-timezone-to-utc)
-5. [Configure the server firewall rules](#configure-the-server-firewall-rules)<br>
-5.1 [Protect SSH with Fail2Ban](#protect-ssh-with-fail2ban)<br>
-6. [Create a new User](#create-a-new-user)<br>
-6.1 [Give the new user sudo privileges](#give-the-new-user-sudo-privileges)<br>
-6.2 [Create a strong key-pair authentication](#create-a-strong-key-pair-authentication)<br>
-6.3 [Access the server as the new user](#access-the-server-as-the-new-user)<br>
-7. [Installing PostgreSQL](#installing-postgresql)
-7.1 [Installation](#installation)<br>
-7.2 [Disable remote connections](#disable-remote-connections)<br>
-7.3 [Test the local connection](#test-the-local-connection)<br>
-8. [Install Apache2](#install-apache2)
-9. [Set up the Flask Application](#set-up-the-flask-application)<br>
-9.1 [Clone the application](#clone-the-application)<br>
-9.2 [Test the dependencies](#test-the-dependencies)<br>
-9.3 [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)<br>
-9.4 [The virtual host](#the-virtual-host)<br>
-9.5 [Ad hoc app configuration](#ad-hoc-app-configuration)<br>
-9.6 [Utilities: useful commands](#utilities:-useful-commands)<br>
+1. [Getting Started With Lightail](#1.getting-started-with-lightsail)
+2. [Connect using your own SSH client application](#2.connect-using-your-own-ssh-client-application)<br>
+2.1 [Create a Static IP](#2.1create-a-static-ip)<br>
+2.2 [Create the private key-pair](2.2#create-the-private-key-pair)<br>
+2.3 [Connect from your terminal](2.3#connect-from-your-terminal)
+3. [Change ssh port](#3.change-ssh-port)
+4. [Configure the timezone to UTC](#4.configure-the-timezone-to-utc)
+5. [Configure the server firewall rules](#5.configure-the-server-firewall-rules)<br>
+5.1 [Protect SSH with Fail2Ban](#5.1protect-ssh-with-fail2ban)<br>
+6. [Create a new User](#6.create-a-new-user)<br>
+6.1 [Give the new user sudo privileges](#6.1give-the-new-user-sudo-privileges)<br>
+6.2 [Create a strong key-pair authentication](#6.2create-a-strong-key-pair-authentication)<br>
+6.3 [Access the server as the new user](#6.3access-the-server-as-the-new-user)<br>
+7. [Installing PostgreSQL](#7.installing-postgresql)
+7.1 [Installation](#7.1installation)<br>
+7.2 [Disable remote connections](#7.2disable-remote-connections)<br>
+7.3 [Test the local connection](#7.3test-the-local-connection)<br>
+8. [Install Apache2](#8.install-apache2)
+9. [Set up the Flask Application](#9.set-up-the-flask-application)<br>
+9.1 [Clone the application](#9.1clone-the-application)<br>
+9.2 [Test the dependencies](#9.2test-the-dependencies)<br>
+9.3 [Create and setup the WSGI file](#9.3create-and-setup-the-wsgi-file)<br>
+9.4 [The virtual host](#9.4the-virtual-host)<br>
+9.5 [Ad hoc app configuration](#9.5ad-hoc-app-configuration)<br>
+9.6 [Utilities: useful commands](#9.6utilities:-useful-commands)<br>
+
 [References](#references)
 
 
