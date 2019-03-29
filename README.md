@@ -171,6 +171,13 @@ and change 22 to 2200.
 # What ports, IPs and protocols we listen for
 Port 2200
 ```
+
+For a better security of our server we also need to disable `RootLogin`. Set the `PermitRootLogin` to `no`.
+```
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin no
+```
 Save and exit. Restart the sshd service.
 ```sh
 sudo service sshd restart
@@ -282,6 +289,16 @@ To                         Action      From
 2200/tcp (v6)              ALLOW       Anywhere (v6)             
 123/udp (v6)               ALLOW       Anywhere (v6)
 ```
+### 5.1 Protect SSH with Fail2Ban
+Since the SSH deamon is a service that must be exposed to the internet to function properly, it creates a vector of attack.
+We can mitigate this problem by using a service called **fail2ban**. This service creates rules that can automatically alter the `iptables` firewall configuration based on a predefined number of unsuccessful login attempts.
+
+Full instructions on how to use Fail2Ban can be found [here](https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04)
+
+Install the service
+```sh
+$ sudo apt-get install fail2ban
+```
 
 ## 6. Create a new User
 In this section we'll create a new user called `grader`.
@@ -326,10 +343,17 @@ $ sudo cp /etc/sudoers.d/90-cloud-init-users /etc/sudoers.d/grader
 ```sh
 $ sudo nano /etc/sudoers.d/grader
 ```
-3. Change ubuntu with the new user: grader
+3. Change ubuntu with the new user: grader. The below line will allow the user to type commands as sudo without requesting the password.
 ```
 # User rules for ubuntu
 grader ALL=(ALL) NOPASSWD:ALL
+```
+
+If you want the user to type the password when using sudo, write this line instead:
+
+```
+# User rules for ubuntu
+grader ALL=(ALL) ALL
 ```
 
 4. Save and close the file
@@ -675,6 +699,21 @@ $ sudo apache2ctl restart
 Error log can be found at:
 ```sh
 sudo cat /var/log/apache2/error.log
+```
+
+Become the root user:
+```sh
+$ sudo -i
+```
+
+Set the password to root user:
+```sh
+$ sudo passwd root
+```
+
+Login as root with the password:
+```sh
+$ su -
 ```
 ___
 
