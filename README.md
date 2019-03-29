@@ -6,29 +6,29 @@ ____
 
 + [Getting Started With Lightail](#getting-started-with-lightsail)
 + [Connect using your own SSH client application](#connect-using-your-own-ssh-client-application)
-* [Create a Static IP](#create-a-static-ip)
-* [Create the private key-pair](#create-the-private-key-pair)
-* [Connect from your terminal](#connect-from-your-terminal)
+  * [Create a Static IP](#create-a-static-ip)
+  * [Create the private key-pair](#create-the-private-key-pair)
+  * [Connect from your terminal](#connect-from-your-terminal)
 + [Change ssh port](#change-ssh-port)
 + [Configure the timezone to UTC](#configure-the-timezone-to-utc)
 + [Configure the server firewall rules](#configure-the-server-firewall-rules)
-* [Protect SSH with Fail2Ban](#protect-ssh-with-fail2ban)
+  * [Protect SSH with Fail2Ban](#protect-ssh-with-fail2ban)
 + [Create a new User](#create-a-new-user)
-* [Give the new user sudo privileges](#give-the-new-user-sudo-privileges)
-* [Create a strong key-pair authentication](#create-a-strong-key-pair-authentication)
-* [Access the server as the new user](#access-the-server-as-the-new-user)
+  * [Give the new user sudo privileges](#give-the-new-user-sudo-privileges)
+  * [Create a strong key-pair authentication](#create-a-strong-key-pair-authentication)
+  * [Access the server as the new user](#access-the-server-as-the-new-user)
 + [Installing PostgreSQL](#installing-postgresql)
-* [Installation](#installation)
-* [Disable remote connections](#disable-remote-connections)
-* [Test the local connection](#test-the-local-connection)
+  * [Installation](#installation)
+  * [Disable remote connections](#disable-remote-connections)
+  * [Test the local connection](#test-the-local-connection)
 + [Install Apache2](#install-apache2)
 + [Set up the Flask Application](#set-up-the-flask-application)
-* [Clone the application](#clone-the-application)
-* [Test the dependencies](#test-the-dependencies)
-* [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)
-* [The virtual host](#the-virtual-host)
-* [Ad hoc app configuration](#ad-hoc-app-configuration)
-* [Utilities: useful commands](#utilities:-useful-commands)
+  * [Clone the application](#clone-the-application)
+  * [Test the dependencies](#test-the-dependencies)
+  * [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)
+  * [The virtual host](#the-virtual-host)
+  * [Ad hoc app configuration](#ad-hoc-app-configuration)
+  * [Useful commands](#useful-commands)
 
 [References](#references)
 
@@ -760,7 +760,7 @@ This will involve the implementation of the WSGIDeamonProcess which I'll not cov
 To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
 
-### Utilities: useful commands
+### Useful commands
 Enable the conf file with `a2ensite`:
 ```sh
 sudo a2ensite <fileName>.conf
