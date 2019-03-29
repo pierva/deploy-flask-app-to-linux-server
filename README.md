@@ -1,9 +1,39 @@
 # Linux Server Configuration Project
 ## Full Stack Web Developer Nanodegree - Udacity
 
+____
 ## Table of Contents
 
-[1. Getting Started With Lightail](#1.-getting-started-with-lightsail)
+1. [Getting Started With Lightail](#1.-getting-started-with-lightsail)
+2. [Connect using your own SSH client application](#2.-connect-using-your-own-ssh-client-application)<br>
+2.1 [Create a Static IP](#create-a-static-ip)<br>
+2.2 [Create the private key-pair](#create-the-private-key-pair)<br>
+2.3 [Connect from your terminal](#connect-from-your-terminal)
+3. [Change ssh port](#change-ssh-port)
+4. [Configure the timezone to UTC](#configure-the-timezone-to-utc)
+5. [Configure the server firewall rules](#configure-the-server-firewall-rules)<br>
+5.1 [Protect SSH with Fail2Ban](#protect-ssh-with-fail2ban)<br>
+6. [Create a new User](#create-a-new-user)<br>
+6.1 [Give the new user sudo privileges](#give-the-new-user-sudo-privileges)<br>
+6.2 [Create a strong key-pair authentication](#create-a-strong-key-pair-authentication)<br>
+6.3 [Access the server as the new user](#access-the-server-as-the-new-user)<br>
+7. [Installing PostgreSQL](#installing-postgresql)
+7.1 [Installation](#installation)<br>
+7.2 [Disable remote connections](#disable-remote-connections)<br>
+7.3 [Test the local connection](#test-the-local-connection)<br>
+8. [Install Apache2](#install-apache2)
+9. [Set up the Flask Application](#set-up-the-flask-application)<br>
+9.1 [Clone the application](#clone-the-application)<br>
+9.2 [Test the dependencies](#test-the-dependencies)<br>
+9.3 [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)<br>
+9.4 [The virtual host](#the-virtual-host)<br>
+9.5 [Ad hoc app configuration](#ad-hoc-app-configuration)<br>
+9.6 [Utilities: useful commands](#utilities:-useful-commands)<br>
+[References](#references)
+
+
+
+
 
 
 # Introduction
@@ -419,7 +449,7 @@ The `-e` flag will basically expire the password.
 ### 6.2 Create a strong key-pair authentication
 Follow the steps described in section 2.2
 
-### 6.2 Access the server as the new user
+### 6.3 Access the server as the new user
 
 Access the server as `grader` (private key provided in the note for the instructor):
 ```sh
@@ -791,7 +821,7 @@ $ apt upgrade --dry-run
 ___
 
 
-Library: <br>
+## References
 [Secure postgres on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
 <br>
 [SQLAlchemy engine configuration](https://docs.sqlalchemy.org/en/latest/core/engines.html#postgresql)
