@@ -828,16 +828,28 @@ ___
 [SQLAlchemy engine configuration](https://docs.sqlalchemy.org/en/latest/core/engines.html#postgresql)
 <br>
 [Downlaod and setup PuTTY](https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-how-to-set-up-putty-to-connect-using-ssh)
+<br>
 [Copy paste in lightsail terminal](https://forums.aws.amazon.com/thread.jspa?messageID=814852&tstart=0)
+<br>
 [PostgreSQL roles](http://www.postgresqltutorial.com/postgresql-roles/)
+<br>
 [Drop table](http://www.postgresqltutorial.com/postgresql-drop-table/)
+<br>
 [Listing db](https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/)
+<br>
 [Virtual Host](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+<br>
 [WSGIDeamonProcess](https://modwsgi.readthedocs.io/en/develop/configuration-directives/WSGIDaemonProcess.html)
+<br>
 [Send email notification from server](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-14-04)
-[Protect the server - Fail2Ban](How To Protect an Apache Server with Fail2Ban on Ubuntu 14.04)
+<br>
+[Protect the server - Fail2Ban](https://www.digitalocean.com/community/tutorials/how-to-protect-an-apache-server-with-fail2ban-on-ubuntu-14-04)
+<br>
 [Automatic security updates](https://help.ubuntu.com/community/AutomaticSecurityUpdates)
+<br>
 [Serve application with Gunicorn and Nginx](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-14-04)
+<br>
 [System monitoring with Nagios](https://www.digitalocean.com/community/tutorials/how-to-install-nagios-4-and-monitor-your-servers-on-ubuntu-14-04)
 [System monitoring with Glances](https://pypi.org/project/Glances/)
+<br>
 [How to deploy Flask app on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps#step-four-%E2%80%93-configure-and-enable-a-new-virtual-host)
