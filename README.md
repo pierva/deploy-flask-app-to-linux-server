@@ -157,7 +157,7 @@ $ cd .ssh
 The fastest way to upload the file is to remove the existing `authorized_keys` file, create a new one and paste the copyed public key.
 
 ```sh
-$ sudo rm authorized_kyes
+$ sudo rm authorized_keys
 
 $ sudo nano authorized_keys
 ```
