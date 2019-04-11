@@ -780,9 +780,33 @@ $ sudo apache2ctl restart
 ```
 Error log can be found at:
 ```sh
-sudo cat /var/log/apache2/error.log
+$ sudo cat /var/log/apache2/error.log
 ```
 
+Enable verbose logs
+```sh
+sudo nano /etc/apache2/apache2.conf
+```
+Locate the LogLevel variable, and update it from the default warn to info or debug. debug will produce the greatest amount of output.
+```
+# LogLevel: Control the number of messages logged to the error_log.
+# Possible values include: debug, info, notice, warn, error, crit,
+# alert, emerg.
+# 
+LogLevel debug
+```
+Restart Apache
+```sh
+$ sudo service apache2 restart
+```
+Apache includes a nice little syntax checking tool
+```sh
+$ apache2ctl -t
+```
+Checking Virtual Host Definitions
+```sh
+$ apache2ctl -S
+```
 Become the root user:
 ```sh
 $ sudo -i
