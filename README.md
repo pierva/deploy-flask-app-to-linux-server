@@ -685,6 +685,7 @@ $ sudo nano /var/www/app.wsgi
 
 Paste the following code.
 ```python
+#!/usr/bin/python3
 import sys
 import logging
 
@@ -842,6 +843,11 @@ If you want just to see what will happen when you run the aptitude commands, add
 
 ```sh
 $ apt upgrade --dry-run
+```
+
+Restart ubuntu machine
+```sh
+$ sudo /sbin/shutdown -r now
 ```
 ___
 
