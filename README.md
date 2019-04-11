@@ -470,7 +470,7 @@ $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
 
-### Installtion
+### Installation
 ```sh
 $ sudo apt-get install postgresql postgresql-contrib
 ```
