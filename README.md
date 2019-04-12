@@ -693,8 +693,10 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0, '/var/www/catalog-app')
 
 from catalog import app as application
-
 ```
+
+A good thing to know is that when an application is running on the server with WSGI the user manipulating the file on the application is `www-data`. This is an important thing to know, because if your app has some sort of file upload into the server, you need to carefully change the file permission on the folder to be written.
+More information can be found [here](https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads)
 
 ### The virtual host
 We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-enabled` directory.
