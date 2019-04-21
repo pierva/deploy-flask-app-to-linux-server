@@ -799,7 +799,26 @@ After clicking on the add button, a new row will appear:
 
 Click save and you're all set. Navigate to your domain name and you should see hour web application.
 
+## HTTPS - Add the padlock to your website
 
+
+### Redirection to https
+After completing the SSL setup, you need to redirect the users that visit the http version of your application to the secure one.
+To permanently redirect all the users we can simply update the `VirtualHost` configuration file.
+Open the configuration file and replace the code of the section related to port `80` with this one:
+
+```
+<VirtualHost *:80>
+  ServerName www.yourdomain.com
+  Redirect permanent / https://www.yourdomain.com/
+</VirtualHost>
+```
+
+In order for the changes to take effect, you need to restart the server.
+
+```sh
+$ sudo apache2ctl restart
+```
 _______
 
 ## Useful commands
