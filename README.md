@@ -29,7 +29,7 @@ ____
   * [The virtual host](#the-virtual-host)
   * [Ad hoc app configuration](#ad-hoc-app-configuration)
 + [Add a domain](#add-a-domain)
-  * [Useful commands](#useful-commands)
++ [Useful commands](#useful-commands)
 
 [References](#references)
 
@@ -802,7 +802,7 @@ Click save and you're all set. Navigate to your domain name and you should see h
 
 _______
 
-### Useful commands
+## Useful commands
 Enable the conf file with `a2ensite`:
 ```sh
 sudo a2ensite <fileName>.conf
