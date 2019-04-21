@@ -787,6 +787,17 @@ After opening the DNS management page, you want to add a new record.
 Click on the `ADD` button.
 
 ![alt add record page](images/add_record.png)
+
+After clicking on the add button, a new row will appear:
+* Type: `A`
+* Host: `@`
+* Points to: `YOUR SERVER PUBLIC IP`
+* TTL: `Choose your TTL time, 1hour is a good bet`
+
+![alt new DNS record](images/DNS_record.png)
+
+Click save and you're all set. Navigate to your domain name and you should see hour web application.
+
 ### Useful commands
 Enable the conf file with `a2ensite`:
 ```sh
