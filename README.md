@@ -381,7 +381,11 @@ Restart fail2ban to implement the wrapping rules:
 ```sh
 $ sudo service fail2ban start
 ```
+To enable a specific port (for instance port 443), you can run the following command:
 
+```sh
+$ sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+```
 ## Create a new User
 In this section we'll create a new user called `grader`.
 To create our new user it is necessary to have `sudo` rights. If we are logged in as ubuntu we're fine. When we add the new user we'll be prompted with few questions including the password for the new user.
@@ -763,6 +767,26 @@ This will involve the implementation of the WSGIDeamonProcess which I'll not cov
 To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
 
+## Adding a domain
+Reaching a website through the IP is cool, but it is nicer to have something easier to memorize.
+We'll go over the process of attaching a domain to the public IP address of the server.
+
+Domains can be bought in different places (GoDaddy, Google just to mention some).
+Go over your favorite provider, we'll use GoDaddy in this example and research for the domain you want.
+
+![alt GoDaddy home](images/godaddy-home.png)
+Once you found a domain, with the name and the extension you like (.com, .net, .org, etc), add to cart and proceed to checkout.
+You'll be prompted with options you can add when buying the domain. Add or skip as needed.
+
+After you bought the domain, go to your account, and click on the `My Products` tab.
+The first section of the page will list all the domains you bought. Do link your server IP to the domain, click on the `DNS` button.
+
+![alt godaddy account settings](images/godaddy-account-settings.png)
+
+After opening the DNS management page, you want to add a new record.
+Click on the `ADD` button.
+
+![alt add record page](images/add_record.png)
 ### Useful commands
 Enable the conf file with `a2ensite`:
 ```sh
@@ -795,7 +819,7 @@ Locate the LogLevel variable, and update it from the default warn to info or deb
 # LogLevel: Control the number of messages logged to the error_log.
 # Possible values include: debug, info, notice, warn, error, crit,
 # alert, emerg.
-# 
+#
 LogLevel debug
 ```
 Restart Apache
