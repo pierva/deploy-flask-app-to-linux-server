@@ -28,6 +28,7 @@ ____
   * [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)
   * [The virtual host](#the-virtual-host)
   * [Ad hoc app configuration](#ad-hoc-app-configuration)
++ [Add a domain](#add-a-domain)
   * [Useful commands](#useful-commands)
 
 [References](#references)
@@ -767,7 +768,7 @@ This will involve the implementation of the WSGIDeamonProcess which I'll not cov
 To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
 
-## Adding a domain
+## Add a domain
 Reaching a website through the IP is cool, but it is nicer to have something easier to memorize.
 We'll go over the process of attaching a domain to the public IP address of the server.
 
@@ -797,6 +798,9 @@ After clicking on the add button, a new row will appear:
 ![alt new DNS record](images/DNS_record.png)
 
 Click save and you're all set. Navigate to your domain name and you should see hour web application.
+
+
+_______
 
 ### Useful commands
 Enable the conf file with `a2ensite`:
@@ -888,6 +892,7 @@ $ sudo /sbin/shutdown -r now
 ```
 ___
 
+[Table of contents](#table-of-contents)
 
 ## References
 [Secure postgres on ubuntu](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
