@@ -811,8 +811,26 @@ We'll use GoDaddy SSL certificate, as having the domain on GoDaddy makes easier 
 Open your account in GoDaddy, head over the SSL section from the navigation bar and buy the certificate you like.
 Once you got the certificate from the `My Products`, click on `SET UP` in the  SSL Certificates section.
 
-[! select SSL](images/select-SSL.png)
+![select SSL](images/select-SSL.png)
 
+Identify the primary domain
+![certificate setup](images/certificate-setup.png)
+
+Save the private key and the CSR and click continue.
+![private key](images/private-key.png)
+
+Choose the algorithm:
+![choose algorithm](images/choose-algorithm.png)
+
+Now the certificate is pending approval. Once it gets approved, go in the 'Certificates' section and click on the link of your certificate.
+![select certificate](images/select-certificate.png)
+
+In the new page, click on download.
+
+![certificate management](images/certificate-management.png)
+
+And finally download the zip file containing the certificate and bundle file.
+![download certificate](images/download-certificate.png)
 
 
 ### Install the certificate
