@@ -815,6 +815,110 @@ Once you got the certificate from the `My Products`, click on `SET UP` in the  S
 
 
 
+### Install the certificate
+In the server you can place the key, certificate and bundle file anywhere. We'll create a dedicated folder inside the `ssl` folder.
+
+We need now to enable the `mod_ssl` module:
+```sh
+$ sudo a2enmod ssl
+```
+
+```sh
+$ cd /etc/ssl
+$ sudo mkdir <name>
+```
+Let's copy and paste the certificate from the downloaded files:
+```sh
+$ sudo nano /etc/ssl/<name>/<name>.crt
+```
+In the editor, copy the content of the `.crt` file downloaded from GoDaddy and paste into this newly created file.
+
+Same operation with the bundle file:
+```sh
+$ sudo nano /etc/ssl/<name>/<name-bundle>.crt
+```
+
+Now we need to add the private key previously downloaded. Copy the content and paste in the file:
+```sh
+$ sudo nano /etc/ssl/<name>/generated-private-key.txt
+```
+
+For security we should restrict those files to be read by root only:
+```sh
+$ sudo chmod 600 /etc/ssl/<name>/<name>.crt
+$ sudo chmod 600 /etc/ssl/<name>/<name-bundle>.crt
+$ sudo chmod 600 /etc/ssl/<name>/generated-private-key.txt
+```
+Now we need to update our application configuration file in order to read the certificates and key.
+
+```sh
+$ cd /etc/apache2/sites-available
+```
+Find your configuration file and update the virtual host settings.
+If you want the http and https both enabled, baste the virtual host configuration just below the closure tag of the VirtualHost port 80 configuration.
+```
+<VirtualHost *:443>
+                ServerName yourdomain.com www.yourdomain.com
+                ServerAdmin email@example.com
+                WSGIScriptAlias / /var/www/your-app/app.wsgi
+                <Directory /var/www/your-app/app/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/yourapp/yourapp/static
+                <Directory /var/www/yourapp/yourapp/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+                SSLEngine on
+                SSLCertificateFile /etc/ssl/<name>/certificate.crt
+                SSLCertificateKeyFile /etc/ssl/<name>/generated-private-key.txt
+                SSLCertificateChainFile /etc/ssl/<name>/gd_bundle-g2-g1.crt
+</VirtualHost>
+```
+Check syntax:
+```sh
+$ apache2ctl configtest
+```
+Now that we're allowing the traffic on port 443, we need to enable that port to accept incoming requests.
+
+### Update Firewall Rules
+First of all we need to enable the port in the Amazon Lightail instance.
+![alt amazon firewall](images/amazon-443.png)
+
+Proceed to your account, open your instance, and under the `Networking` tab add a rule to accept the `https` connections on port 443.
+
+Now we can update the server firewalls rules:
+```sh
+$ sudo ufw allow https
+```
+If you have Fail2Ban installed, we need to update that one as well. You can check if port 443 is already enabled by typing:
+
+```sh
+$ sudo iptables -S
+```
+To allow port 443 type:
+```sh
+$ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+```
+
+Restart the server to accept the new configuration.
+```sh
+$ sudo apache2ctl restart
+```
+You can check if everything is in good order with one of the following tools:
+
+* [SSL Checker](https://decoder.link/sslchecker/www.argos-care.com/443)
+* [GoDaddy SSL Checker](https://www.godaddy.com/ssl-checker)
+
+If everything is ok, you should have the following output:
+
+![ssl checker](images/ssl-checker.png)
+[GoDaddy guide - Ubuntu Installation](https://www.godaddy.com/help/manually-install-an-ssl-certificate-on-my-apache-server-ubuntu-32078)
 
 ### Redirection to https
 After completing the SSL setup, you need to redirect the users that visit the http version of your application to the secure one.
