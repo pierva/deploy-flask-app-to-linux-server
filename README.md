@@ -800,6 +800,20 @@ After clicking on the add button, a new row will appear:
 Click save and you're all set. Navigate to your domain name and you should see hour web application.
 
 ## HTTPS - Add the padlock to your website
+SSL Certificates are small data files that digitally bind a cryptographic key to your domain. The SSL certificate activates the padlock and the https protocol and allows secure connections (encrypted data) from a web server to a browser.
+
+We'll explain how to install a SSL certificate on a server. First we need to buy an SSL certificate. There many options out there, which may vary substantially in price. The difference between a cheap certificate and a more expensive one is the encryption they use to secure your connection between server and browsers.
+
+A cheap one could be [Name Cheap](https://www.namecheap.com) which is good for a personal website or blog or if you want to experiment with SSL.
+
+We'll use GoDaddy SSL certificate, as having the domain on GoDaddy makes easier the verification process.
+
+Open your account in GoDaddy, head over the SSL section from the navigation bar and buy the certificate you like.
+Once you got the certificate from the `My Products`, click on `SET UP` in the  SSL Certificates section.
+
+[! select SSL](images/select-SSL.png)
+
+
 
 
 ### Redirection to https
