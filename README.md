@@ -612,6 +612,11 @@ Now we can remove the table (inside the psql prompt) with `DROP TABLE`:
 catalogdb=# DROP TABLE tutorials;
 ```
 
+### Automatically start postgres server
+If you want to automatically start postgres on startup run this command:
+```sh
+$ sudo update-rc.d postgresql enable
+```
 
 ## Install Apache2
 
