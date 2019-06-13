@@ -21,6 +21,7 @@ ____
   * [Installation](#installation)
   * [Disable remote connections](#disable-remote-connections)
   * [Test the local connection](#test-the-local-connection)
++ [PostgreSQL db backup](#postgres-db-backup)
 + [Install Apache2](#install-apache2)
 + [Set up the Flask Application](#set-up-the-flask-application)
   * [Clone the application](#clone-the-application)
@@ -616,6 +617,28 @@ catalogdb=# DROP TABLE tutorials;
 If you want to automatically start postgres on startup run this command:
 ```sh
 $ sudo update-rc.d postgresql enable
+```
+
+## PostgreSQL db backup
+If you need to create a backup of the database located in a remote server into your local machine,
+you can can use the output of `stdout` over the ssh.
+You basically need to pass the `pg_dump` command over the ssh.
+An example of command would look similar to this (from your local machine terminal)
+```sh
+$ ssh ubuntu@x.xxx.xx.xx -p 2200 -i ~/.ssh/your-key "pg_dump -U postgres -h localhost -d <dbname> -C --column-inserts" \ >> ~/destination-path.sql
+```
+The first part of the command is the usual command you would use to connect remotely to your server.
+In the string you then specify the `pg_dump` parameters.
+
+To create a local backup in the server use the `pg_dump` command locally.
+
+First login as the `postgres` user:
+```sh
+$ sudo -i -u postgres
+```
+Then:
+```sh
+$ pg_dump dbname > dbname.bak
 ```
 
 ## Install Apache2
