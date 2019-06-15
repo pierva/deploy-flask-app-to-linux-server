@@ -21,7 +21,7 @@ ____
   * [Installation](#installation)
   * [Disable remote connections](#disable-remote-connections)
   * [Test the local connection](#test-the-local-connection)
-+ [PostgreSQL db backup](#postgres-db-backup)
++ [PostgreSQL db backup](#postgresql-db-backup)
 + [Install Apache2](#install-apache2)
 + [Set up the Flask Application](#set-up-the-flask-application)
   * [Clone the application](#clone-the-application)
