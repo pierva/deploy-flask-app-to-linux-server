@@ -4,7 +4,7 @@
 ____
 ## Table of Contents
 
-+ [Getting Started With Lightail](#getting-started-with-lightsail)
++ [Getting Started With Lightsail](#getting-started-with-lightsail)
 + [Connect using your own SSH client application](#connect-using-your-own-ssh-client-application)
   * [Create a Static IP](#create-a-static-ip)
   * [Create the private key-pair](#create-the-private-key-pair)
@@ -58,7 +58,7 @@ port: 2200
 <br>
 uri: http://www.piervaleriovignola.com
 
-## Getting Started With Lightail
+## Getting Started With Lightsail
 Lightail is the easiest way to get started with AWS. It allows you to launch a virtual private server in just few clicks. You don't have to worry about all the infrastructure setup.
 
 Login into your [Lightail account](https://lightsail.aws.amazon.com/ls/webapp/home/instances) and in the home page click on "create instance" button.
