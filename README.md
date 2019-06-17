@@ -573,6 +573,12 @@ $ sudo pip3 install psycopg2
 $ sudo pip3 install psycopg2-binary
 ```
 
+You may get some error when installing psycopg2 through pip, in this case it is necessary to install `psycopg2` through `apt` and add the `libpq-dev` module.
+```sh
+$ sudo apt-get install python3-psycopg2
+$ sudo apt-get install libpq-dev
+```
+
 Now we can open python3, import the module and test the connection with the db.
 
 You can use the below code to test the connection. Replace the connection string values with your values.
