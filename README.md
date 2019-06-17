@@ -742,12 +742,12 @@ from catalog import app as application
 A good thing to know is that when an application is running on the server with WSGI the user manipulating the file on the application is `www-data`. This is an important thing to know, because if your app has some sort of file upload into the server, you need to carefully change the file permission on the folder to be written.
 More information can be found [here](https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads)
 
-### The virtual host
+## The virtual host
 We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-available` directory.
 
 We can alter the default configuration and make it point to our application, or create a new one.
 
-## Alter the existing VirtualHost file
+### Alter the existing VirtualHost file
 ```sh
 $ sudo nano /etc/apache2/sites-available/000-default.conf
 ```
@@ -801,7 +801,7 @@ Now navigate to the public IP and you should see the application running.
 
 The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
-## Create a dedicated VirtualHost
+### Create a dedicated VirtualHost
 A best practice would be to create a `VirtualHost` file just for the application inside the `sites-available` and then activate it.
 
 ```sh
