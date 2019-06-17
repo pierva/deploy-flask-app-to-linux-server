@@ -28,7 +28,6 @@ ____
   * [Test the dependencies](#test-the-dependencies)
   * [Create and setup the WSGI file](#create-and-setup-the-wsgi-file)
   * [The virtual host](#the-virtual-host)
-  * [Ad hoc app configuration](#ad-hoc-app-configuration)
 + [Add a domain](#add-a-domain)
 + [Useful commands](#useful-commands)
 
@@ -744,12 +743,13 @@ A good thing to know is that when an application is running on the server with W
 More information can be found [here](https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads)
 
 ### The virtual host
-We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-enabled` directory.
+We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-available` directory.
 
-We can alter the default configuration and make it point to our application.
+We can alter the default configuration and make it point to our application, or create a new one.
 
+## Alter the existing VirtualHost file
 ```sh
-$ sudo nano /etc/apache2/sites-enabled/000-default.conf
+$ sudo nano /etc/apache2/sites-available/000-default.conf
 ```
 Inside the conf file:
 - Change DocumentRoot path
@@ -768,7 +768,7 @@ VirtualHost *:80>
         #ServerName www.example.com
 
         ServerAdmin example@email.com
-        DocumentRoot /var/www/catalog-app
+        DocumentRoot /var/www/<app-folder>
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
@@ -801,11 +801,51 @@ Now navigate to the public IP and you should see the application running.
 
 The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
-### Ad hoc app configuration
-A best practice would be to create a configuration file just for the application.
-This will involve the implementation of the WSGIDeamonProcess which I'll not cover here.
+## Create a dedicated VirtualHost
+A best practice would be to create a `VirtualHost` file just for the application inside the `sites-available` and then activate it.
 
-To get started you can follow this [guide](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
+```sh
+$ sudo nano /etc/apache2/sites-available/<name-of-the-file>.conf
+```
+
+Inside the file we need to write the `VirtualHost` configuration, which may look similar to the below code.
+
+```sh
+<VirtualHost *:80>
+                ServerName www.example.com
+                ServerAdmin email@domain.com
+                WSGIScriptAlias / /var/www/<your-app>/app.wsgi
+                <Directory /var/www/<your-app>/<application>/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/<your-app>/<application>/static
+                <Directory /var/www/<your-app>/<application>/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog /var/path-to-your-log/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+Close and save the file.
+
+Now we need to activate our custom configuration file and deactivate the default one.
+
+Navigate in the `sites-available` directory and run the `a2ensite` command.
+
+```sh
+$ cd /etc/apache2/sites-available/
+$ sudo a2ensite <fileName>.conf
+$ sudo a2dissite 000-default.conf
+```
+Restart the server.
+```sh
+$ sudo apache2ctl restart
+```
+
+More information can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
 
 ## Add a domain
