@@ -480,7 +480,13 @@ $ sudo apt-get upgrade
 ```sh
 $ sudo apt-get install postgresql postgresql-contrib
 ```
-This will install the latest version of the postgresql server locally. Additionally togheter with the server it will be installed all the commonly used add-ons for it.
+This will install the latest version of the postgresql server locally. Additionally along to the server, the command will install all the necessary dependencies.
+
+To start and stop the postgreSQL service use the below commands:
+```sh
+$ sudo service postgresql start
+$ sudo service postgresql stop
+```
 
 To start we need to create the role postgres and setup the password.
 
