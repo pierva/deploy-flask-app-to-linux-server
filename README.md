@@ -57,6 +57,8 @@ port: 2200
 <br>
 uri: http://www.piervaleriovignola.com
 
+[menu](#table-of-contents)
+
 ## Getting Started With Lightsail
 Lightail is the easiest way to get started with AWS. It allows you to launch a virtual private server in just few clicks. You don't have to worry about all the infrastructure setup.
 
@@ -86,6 +88,8 @@ A new terminal window (within a browser) will open and you're connected to your 
 
 It is not very easy to work with this terminal in the window, because some operations such us copy-paste won't work. We'll set up the connection to the new machine from your own SSH client (terminal/PuTTY).
 
+[menu](#table-of-contents)
+
 ## Connect using your own SSH client application
 
 ### Create a static IP
@@ -107,6 +111,8 @@ Give a name to your static IP if you prefer and click on `Create`.
 You'll get a new *Public static IP address*. This is what we'll use to connect to the machine.
 
 ![alt static ip page](images/static_ip_page.png)
+
+[menu](#table-of-contents)
 
 
 ### Create the private key-pair
@@ -178,6 +184,7 @@ This is a security measure that SSH enforces to ensure other users cannot gain a
 $ sudo chmod 700 ~/.ssh
 $ sudo chmod 644 ~/.ssh/authorized_keys
 ```
+[menu](#table-of-contents)
 
 ### Connect from your terminal
 Now that we have a strong authentication process in place we can connect to the machine directly from the client terminal (PuTTY).
@@ -188,6 +195,8 @@ $ ssh ubuntu@xx.xxx.xxx.xxx -i ~/.ssh/YOUR-INSTANCE-KEY
 ```
 
 Insert your IP address and make sure that the path and file name to your private key is correct.
+
+[menu](#table-of-contents)
 
 ## Change ssh port
 Now that we are logged in we can go ahead and setup our server as we like.
@@ -264,6 +273,7 @@ Run 'do-release-upgrade' to upgrade to it.
 Last login: Tue Mar 26 23:10:12 2019 from 170.250.216.229
 ubuntu@ip-xxx-xx-xx-xx:~$
 ```
+[menu](#table-of-contents)
 
 ## Configure the timezone to UTC
 To set the server clock to UTC (default) we can type the following command:
@@ -279,6 +289,8 @@ Select `None of the above` in the first page.
 In the subsequent page select UTC and click ok.
 ![alt clock to UTC](images/clock_2.png)
 
+
+[menu](#table-of-contents)
 ____
 
 ## Configuring the server firewall rules
@@ -327,6 +339,9 @@ To                         Action      From
 2200/tcp (v6)              ALLOW       Anywhere (v6)             
 123/udp (v6)               ALLOW       Anywhere (v6)
 ```
+
+[menu](#table-of-contents)
+
 ### Protect SSH with Fail2Ban
 Since the SSH deamon is a service that must be exposed to the internet to function properly, it creates a vector of attack.
 We can mitigate this problem by using a service called **fail2ban**. This service creates rules that can automatically alter the `iptables` firewall configuration based on a predefined number of unsuccessful login attempts.
@@ -387,6 +402,9 @@ To enable a specific port (for instance port 443), you can run the following com
 ```sh
 $ sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 ```
+
+[menu](#table-of-contents)
+
 ## Create a new User
 In this section we'll create a new user called `grader`.
 To create our new user it is necessary to have `sudo` rights. If we are logged in as ubuntu we're fine. When we add the new user we'll be prompted with few questions including the password for the new user.
@@ -411,6 +429,9 @@ Enter the new value, or press ENTER for the default
 	Other []:
 Is the information correct? [Y/n] y
 ```
+
+[menu](#table-of-contents)
+
 ### Give the new user sudo privileges
 Ubuntu creates a folder with all the users with pseudo privileges. You can check who has pseudo privileges with the following command.
 
@@ -452,6 +473,8 @@ $ sudo passwd -e grader
 ```
 The `-e` flag will basically expire the password.
 
+[menu](#table-of-contents)
+
 ### Create a strong key-pair authentication
 Follow the steps described in section 2.2
 
@@ -465,6 +488,8 @@ The ssh authorized keys file is located in the following directory `/.ssh`:
 ```sh
 $ cd ~/.ssh/authorized_keys
 ```
+
+[menu](#table-of-contents)
 
 ## Installing PostgreSQL
 Installing and setup the database on the linux machine can be somehow tricky. We'll break it down all the necessary steps in order to make the process as simple as possible.
@@ -544,6 +569,8 @@ To get the list of all the databases, in the same postgreSQL prompt type:
 \l
 ```
 
+[menu](#table-of-contents)
+
 ### Disable remote connections
 Remote connections are by default disabled when installing PostgreSQL from the Ubuntu repositories. We can double check it by accessing this configuration file:
 ```sh
@@ -564,6 +591,9 @@ host    all             all             127.0.0.1/32            md5
 # IPv6 local connections:
 host    all             all             ::1/128                 md5
 ```
+
+[menu](#table-of-contents)
+
 ### Test the local connection
 To communicate with our database within python we need to install a module called `psycopg2`.
 To install python3 modules with `pip3` we need to install `pip3` first and upgrade it.
@@ -623,6 +653,8 @@ Now we can remove the table (inside the psql prompt) with `DROP TABLE`:
 ```
 catalogdb=# DROP TABLE tutorials;
 ```
+[menu](#table-of-contents)
+
 
 ### Automatically start postgres server
 If you want to automatically start postgres on startup run this command:
@@ -651,6 +683,8 @@ Then:
 ```sh
 $ pg_dump dbname > dbname.bak
 ```
+[menu](#table-of-contents)
+
 
 ## Install Apache2
 
@@ -676,6 +710,8 @@ $ sudo a2enmod wsgi
 Restart apache server:
 $ sudo service apache2 restart
 ```
+[menu](#table-of-contents)
+
 
 ## Set up the Flask Application
 
@@ -711,6 +747,8 @@ app.config.from_object("catalog.config.ProductionConfig")
 
 ```
 
+[menu](#table-of-contents)
+
 ### Test the dependencies
 Once the application has been cloned and all the proper configurations done, you can check if all the dependencies have been properly installed by running this command from the app root folder:
 
@@ -741,6 +779,8 @@ from catalog import app as application
 
 A good thing to know is that when an application is running on the server with WSGI the user manipulating the file on the application is `www-data`. This is an important thing to know, because if your app has some sort of file upload into the server, you need to carefully change the file permission on the folder to be written.
 More information can be found [here](https://stackoverflow.com/questions/21797372/django-errno-13-permission-denied-var-www-media-animals-user-uploads)
+
+[menu](#table-of-contents)
 
 ## The virtual host
 We now need to mount the WSGI application by configuring the virtual host file inside the `/etc/apache2/sites-available` directory.
@@ -801,6 +841,9 @@ Now navigate to the public IP and you should see the application running.
 
 The configuration guide on how to setup the virtual host can be found [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 
+[menu](#table-of-contents)
+
+
 ### Create a dedicated VirtualHost
 A best practice would be to create a `VirtualHost` file just for the application inside the `sites-available` and then activate it.
 
@@ -847,6 +890,7 @@ $ sudo apache2ctl restart
 
 More information can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04-quickstart)
 
+[menu](#table-of-contents)
 
 ## Add a domain
 Reaching a website through the IP is cool, but it is nicer to have something easier to memorize.
@@ -878,6 +922,8 @@ After clicking on the add button, a new row will appear:
 ![alt new DNS record](images/DNS_record.png)
 
 Click save and you're all set. Navigate to your domain name and you should see hour web application.
+
+[menu](#table-of-contents)
 
 ## HTTPS - Add the padlock to your website
 SSL Certificates are small data files that digitally bind a cryptographic key to your domain. The SSL certificate activates the padlock and the https protocol and allows secure connections (encrypted data) from a web server to a browser.
@@ -911,6 +957,8 @@ In the new page, click on download.
 
 And finally download the zip file containing the certificate and bundle file.
 ![download certificate](images/download-certificate.png)
+
+[menu](#table-of-contents)
 
 
 ### Install the certificate
@@ -984,6 +1032,9 @@ $ apache2ctl configtest
 ```
 Now that we're allowing the traffic on port 443, we need to enable that port to accept incoming requests.
 
+[menu](#table-of-contents)
+
+
 ### Update Firewall Rules
 First of all we need to enable the port in the Amazon Lightail instance.
 ![alt amazon firewall](images/amazon-443.png)
@@ -1018,6 +1069,8 @@ If everything is ok, you should have the following output:
 ![ssl checker](images/ssl-checker.png)
 [GoDaddy guide - Ubuntu Installation](https://www.godaddy.com/help/manually-install-an-ssl-certificate-on-my-apache-server-ubuntu-32078)
 
+[menu](#table-of-contents)
+
 ### Redirection to https
 After completing the SSL setup, you need to redirect the users that visit the http version of your application to the secure one.
 To permanently redirect all the users we can simply update the `VirtualHost` configuration file.
@@ -1035,6 +1088,7 @@ In order for the changes to take effect, you need to restart the server.
 ```sh
 $ sudo apache2ctl restart
 ```
+[menu](#table-of-contents)
 _______
 
 ## Useful commands
